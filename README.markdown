@@ -50,6 +50,8 @@ The package names have been revised to be in `com.commonsware.cwac.crossport`.
 So, instead of `android.support.design.widget.TabLayout`, it is
 `com.commonsware.cwac.crossport.design.widget.TabLayout`.
 
+Because this library requires `Theme.Material`, this library has a `minSdkVersion` of 21.
+
 Dependencies
 ------------
 This project depends upon `support-annotations` and three pieces of the
