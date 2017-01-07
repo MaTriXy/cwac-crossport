@@ -1,0 +1,14 @@
+<resources>
+  <declare-styleable name="TextAppearance">
+    <attr name="android:textSize" />
+    <attr name="android:textColor" />
+    <attr name="android:textColorHint" />
+    <attr name="android:textStyle" />
+    <attr name="android:typeface" />
+    <attr name="android:textAllCaps" />
+    <attr name="android:shadowColor" />
+    <attr name="android:shadowDy" />
+    <attr name="android:shadowDx" />
+    <attr name="android:shadowRadius" />
+  </declare-styleable>
+</resources>

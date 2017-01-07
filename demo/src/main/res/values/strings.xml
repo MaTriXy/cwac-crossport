@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">CrossPort Demo</string>
+	<string name="hint">Editor #%d</string>
+	<string name="hello">Hello, world!</string>
+	<string name="stop">Make It Stop</string>
+	<string name="drawer_toggle_open">Open Drawer</string>
+	<string name="drawer_toggle_close">Close Drawer</string>
+
+</resources>
