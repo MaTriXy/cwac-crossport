@@ -12,7 +12,7 @@ In particular, this library ports:
 - `TabLayout`
 - `TextInputLayout` and `TextInputEditText`
 
-among other classe from Material Components for Android. It also has a port
+among other classes from Material Components for Android. It also has a port
 of `DrawerArrowDrawable`, for use with nav drawers.
 
 These classes allow you to use these Material Design elements without incurring
