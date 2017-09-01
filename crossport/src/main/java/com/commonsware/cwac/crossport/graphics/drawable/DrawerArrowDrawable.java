@@ -386,7 +386,7 @@ public class DrawerArrowDrawable extends Drawable {
     final float barThickness = mPaint.getStrokeWidth();
     final int remainingSpace = (int) (bounds.height() - barThickness * 3 - mBarGap * 2);
     float yOffset = (remainingSpace / 4) * 2; // making sure it is a multiple of 2.
-    yOffset += barThickness * 1.5 + mBarGap;
+        yOffset += barThickness * 1.5f + mBarGap;
 
     canvas.translate(bounds.centerX(), yOffset);
     if (mSpin) {
@@ -439,8 +439,8 @@ public class DrawerArrowDrawable extends Drawable {
   /**
    * Set the progress of the arrow.
    *
-   * <p>A value of {@code 0.0} indicates that the arrow should be drawn in it's starting
-   * position. A value of {@code 1.0} indicates that the arrow should be drawn in it's ending
+     * <p>A value of {@code 0.0} indicates that the arrow should be drawn in its starting
+     * position. A value of {@code 1.0} indicates that the arrow should be drawn in its ending
    * position.</p>
    */
   public void setProgress(@FloatRange(from = 0.0, to = 1.0) float progress) {

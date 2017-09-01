@@ -19,9 +19,12 @@ package com.commonsware.cwac.crossport.design.widget;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 import android.util.Log;
+
 import java.lang.reflect.Method;
 
-/** Caution. Gross hacks ahead. */
+/**
+ * Caution. Gross hacks ahead.
+ */
 class DrawableUtils {
 
   private static final String LOG_TAG = "DrawableUtils";
@@ -31,18 +34,17 @@ class DrawableUtils {
 
   private DrawableUtils() {}
 
-  static boolean setContainerConstantState(
-      DrawableContainer drawable, Drawable.ConstantState constantState) {
+    static boolean setContainerConstantState(DrawableContainer drawable,
+            Drawable.ConstantState constantState) {
     // We can use getDeclaredMethod() on v9+
     return setContainerConstantStateV9(drawable, constantState);
   }
 
-  private static boolean setContainerConstantStateV9(
-      DrawableContainer drawable, Drawable.ConstantState constantState) {
+    private static boolean setContainerConstantStateV9(DrawableContainer drawable,
+            Drawable.ConstantState constantState) {
     if (!sSetConstantStateMethodFetched) {
       try {
-        sSetConstantStateMethod =
-            DrawableContainer.class.getDeclaredMethod(
+                sSetConstantStateMethod = DrawableContainer.class.getDeclaredMethod(
                 "setConstantState", DrawableContainer.DrawableContainerState.class);
         sSetConstantStateMethod.setAccessible(true);
       } catch (NoSuchMethodException e) {

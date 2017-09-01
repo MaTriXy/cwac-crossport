@@ -28,13 +28,15 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.ColorUtils;
 
-/** A drawable which draws an oval 'border'. */
+/**
+ * A drawable which draws an oval 'border'.
+ */
 class CircularBorderDrawable extends Drawable {
 
   /**
-   * We actually draw the stroke wider than the border size given. This is to reduce any potential
-   * transparent space caused by anti-aliasing and padding rounding. This value defines the
-   * multiplier used to determine to draw stroke width.
+     * We actually draw the stroke wider than the border size given. This is to reduce any
+     * potential transparent space caused by anti-aliasing and padding rounding.
+     * This value defines the multiplier used to determine to draw stroke width.
    */
   private static final float DRAW_STROKE_WIDTH_MULTIPLE = 1.3333f;
 
@@ -61,18 +63,17 @@ class CircularBorderDrawable extends Drawable {
     mPaint.setStyle(Paint.Style.STROKE);
   }
 
-  void setGradientColors(
-      int topOuterStrokeColor,
-      int topInnerStrokeColor,
-      int bottomOuterStrokeColor,
-      int bottomInnerStrokeColor) {
+    void setGradientColors(int topOuterStrokeColor, int topInnerStrokeColor,
+            int bottomOuterStrokeColor, int bottomInnerStrokeColor) {
     mTopOuterStrokeColor = topOuterStrokeColor;
     mTopInnerStrokeColor = topInnerStrokeColor;
     mBottomOuterStrokeColor = bottomOuterStrokeColor;
     mBottomInnerStrokeColor = bottomInnerStrokeColor;
   }
 
-  /** Set the border width */
+    /**
+     * Set the border width
+     */
   void setBorderWidth(float width) {
     if (mBorderWidth != width) {
       mBorderWidth = width;
@@ -175,7 +176,6 @@ class CircularBorderDrawable extends Drawable {
 
   /**
    * Creates a vertical {@link LinearGradient}
-   *
    * @return
    */
   private Shader createGradientShader() {
@@ -187,11 +187,9 @@ class CircularBorderDrawable extends Drawable {
     final int[] colors = new int[6];
     colors[0] = ColorUtils.compositeColors(mTopOuterStrokeColor, mCurrentBorderTintColor);
     colors[1] = ColorUtils.compositeColors(mTopInnerStrokeColor, mCurrentBorderTintColor);
-    colors[2] =
-        ColorUtils.compositeColors(
+        colors[2] = ColorUtils.compositeColors(
             ColorUtils.setAlphaComponent(mTopInnerStrokeColor, 0), mCurrentBorderTintColor);
-    colors[3] =
-        ColorUtils.compositeColors(
+        colors[3] = ColorUtils.compositeColors(
             ColorUtils.setAlphaComponent(mBottomInnerStrokeColor, 0), mCurrentBorderTintColor);
     colors[4] = ColorUtils.compositeColors(mBottomInnerStrokeColor, mCurrentBorderTintColor);
     colors[5] = ColorUtils.compositeColors(mBottomOuterStrokeColor, mCurrentBorderTintColor);
@@ -205,6 +203,9 @@ class CircularBorderDrawable extends Drawable {
     positions[5] = 1f;
 
     return new LinearGradient(
-        0, rect.top, 0, rect.bottom, colors, positions, Shader.TileMode.CLAMP);
+                0, rect.top,
+                0, rect.bottom,
+                colors, positions,
+                Shader.TileMode.CLAMP);
   }
 }

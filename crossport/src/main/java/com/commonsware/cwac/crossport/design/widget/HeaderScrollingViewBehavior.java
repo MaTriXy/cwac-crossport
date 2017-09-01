@@ -19,6 +19,7 @@ package com.commonsware.cwac.crossport.design.widget;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.v4.math.MathUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
@@ -26,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.List;
 
 abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
@@ -43,12 +45,8 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
   }
 
   @Override
-  public boolean onMeasureChild(
-      CoordinatorLayout parent,
-      View child,
-      int parentWidthMeasureSpec,
-      int widthUsed,
-      int parentHeightMeasureSpec,
+    public boolean onMeasureChild(CoordinatorLayout parent, View child,
+            int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec,
       int heightUsed) {
     final int childLpHeight = child.getLayoutParams().height;
     if (childLpHeight == ViewGroup.LayoutParams.MATCH_PARENT
@@ -59,7 +57,8 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
       final List<View> dependencies = parent.getDependencies(child);
       final View header = findFirstDependency(dependencies);
       if (header != null) {
-        if (ViewCompat.getFitsSystemWindows(header) && !ViewCompat.getFitsSystemWindows(child)) {
+                if (ViewCompat.getFitsSystemWindows(header)
+                        && !ViewCompat.getFitsSystemWindows(child)) {
           // If the header is fitting system windows then we need to also,
           // otherwise we'll get CoL's compatible measuring
           ViewCompat.setFitsSystemWindows(child, true);
@@ -77,17 +76,16 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
           availableHeight = parent.getHeight();
         }
 
-        final int height = availableHeight - header.getMeasuredHeight() + getScrollRange(header);
-        final int heightMeasureSpec =
-            View.MeasureSpec.makeMeasureSpec(
-                height,
+                final int height = availableHeight - header.getMeasuredHeight()
+                        + getScrollRange(header);
+                final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height,
                 childLpHeight == ViewGroup.LayoutParams.MATCH_PARENT
                     ? View.MeasureSpec.EXACTLY
                     : View.MeasureSpec.AT_MOST);
 
         // Now measure the scrolling view with the correct height
-        parent.onMeasureChild(
-            child, parentWidthMeasureSpec, widthUsed, heightMeasureSpec, heightUsed);
+                parent.onMeasureChild(child, parentWidthMeasureSpec,
+                        widthUsed, heightMeasureSpec, heightUsed);
 
         return true;
       }
@@ -96,8 +94,8 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
   }
 
   @Override
-  protected void layoutChild(
-      final CoordinatorLayout parent, final View child, final int layoutDirection) {
+    protected void layoutChild(final CoordinatorLayout parent, final View child,
+            final int layoutDirection) {
     final List<View> dependencies = parent.getDependencies(child);
     final View header = findFirstDependency(dependencies);
 
@@ -105,15 +103,14 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
       final CoordinatorLayout.LayoutParams lp =
           (CoordinatorLayout.LayoutParams) child.getLayoutParams();
       final Rect available = mTempRect1;
-      available.set(
-          parent.getPaddingLeft() + lp.leftMargin,
+            available.set(parent.getPaddingLeft() + lp.leftMargin,
           header.getBottom() + lp.topMargin,
           parent.getWidth() - parent.getPaddingRight() - lp.rightMargin,
-          parent.getHeight() + header.getBottom() - parent.getPaddingBottom() - lp.bottomMargin);
+                    parent.getHeight() + header.getBottom()
+                            - parent.getPaddingBottom() - lp.bottomMargin);
 
       final WindowInsetsCompat parentInsets = parent.getLastWindowInsets();
-      if (parentInsets != null
-          && ViewCompat.getFitsSystemWindows(parent)
+            if (parentInsets != null && ViewCompat.getFitsSystemWindows(parent)
           && !ViewCompat.getFitsSystemWindows(child)) {
         // If we're set to handle insets but this child isn't, then it has been measured as
         // if there are no insets. We need to lay it out to match horizontally.
@@ -123,13 +120,8 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
       }
 
       final Rect out = mTempRect2;
-      GravityCompat.apply(
-          resolveGravity(lp.gravity),
-          child.getMeasuredWidth(),
-          child.getMeasuredHeight(),
-          available,
-          out,
-          layoutDirection);
+            GravityCompat.apply(resolveGravity(lp.gravity), child.getMeasuredWidth(),
+                    child.getMeasuredHeight(), available, out, layoutDirection);
 
       final int overlap = getOverlapPixelsForOffset(header);
 
@@ -147,9 +139,7 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
   }
 
   final int getOverlapPixelsForOffset(final View header) {
-    return mOverlayTop == 0
-        ? 0
-        : MathUtils.constrain(
+        return mOverlayTop == 0 ? 0 : MathUtils.clamp(
             (int) (getOverlapRatioForOffset(header) * mOverlayTop), 0, mOverlayTop);
   }
 
@@ -179,7 +169,9 @@ abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
     mOverlayTop = overlayTop;
   }
 
-  /** Returns the distance that this view should overlap any {@link AppBarLayout}. */
+    /**
+     * Returns the distance that this view should overlap any {@link AppBarLayout}.
+     */
   public final int getOverlayTop() {
     return mOverlayTop;
   }

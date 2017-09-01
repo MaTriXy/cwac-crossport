@@ -20,10 +20,11 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 /**
- * Utility helper for moving a {@link View} around using {@link
- * View#offsetLeftAndRight(int)} and {@link View#offsetTopAndBottom(int)}.
- *
- * <p>Also the setting of absolute offsets (similar to translationX/Y), rather than additive
+ * Utility helper for moving a {@link android.view.View} around using
+ * {@link android.view.View#offsetLeftAndRight(int)} and
+ * {@link android.view.View#offsetTopAndBottom(int)}.
+ * <p>
+ * Also the setting of absolute offsets (similar to translationX/Y), rather than additive
  * offsets.
  */
 class ViewOffsetHelper {

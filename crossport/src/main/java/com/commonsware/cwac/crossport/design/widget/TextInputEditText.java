@@ -26,10 +26,10 @@ import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 
 /**
- * A special sub-class of {@link android.widget.EditText} designed for use as a child of {@link
- * TextInputLayout}.
+ * A special sub-class of {@link android.widget.EditText} designed for use as a child of
+ * {@link TextInputLayout}.
  *
- * <p>Using this class allows us to display a hint in the IME when in 'extract' mode.
+ * <p>Using this class allows us to display a hint in the IME when in 'extract' mode.</p>
  */
 public class TextInputEditText extends EditText {
 

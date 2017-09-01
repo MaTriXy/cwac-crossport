@@ -30,14 +30,14 @@ import android.view.View;
 import static android.support.annotation.RestrictTo.Scope.GROUP_ID;
 
 /**
- * Drawable which delegates all calls to it's wrapped {@link Drawable}.
+ * Drawable which delegates all calls to its wrapped {@link Drawable}.
  * <p>
  * The wrapped {@link Drawable} <em>must</em> be fully released from any {@link View}
  * before wrapping, otherwise internal {@link Drawable.Callback} may be dropped.
  *
  * @hide
  */
-@RestrictTo(GROUP_ID)
+//@RestrictTo(LIBRARY_GROUP)
 public class DrawableWrapper extends Drawable implements Drawable.Callback {
 
   private Drawable mDrawable;
@@ -101,6 +101,7 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
     return mDrawable.getState();
   }
 
+    @Override
   public void jumpToCurrentState() {
     DrawableCompat.jumpToCurrentState(mDrawable);
   }
@@ -153,6 +154,7 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
   /**
    * {@inheritDoc}
    */
+    @Override
   public void invalidateDrawable(Drawable who) {
     invalidateSelf();
   }
@@ -160,6 +162,7 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
   /**
    * {@inheritDoc}
    */
+    @Override
   public void scheduleDrawable(Drawable who, Runnable what, long when) {
     scheduleSelf(what, when);
   }
@@ -167,6 +170,7 @@ public class DrawableWrapper extends Drawable implements Drawable.Callback {
   /**
    * {@inheritDoc}
    */
+    @Override
   public void unscheduleDrawable(Drawable who, Runnable what) {
     unscheduleSelf(what);
   }

@@ -19,9 +19,12 @@ package com.commonsware.cwac.crossport.design.widget;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+
 import java.lang.ref.WeakReference;
 
-/** Manages {@link Snackbar}s. */
+/**
+ * Manages {@link Snackbar}s.
+ */
 class SnackbarManager {
 
   static final int MSG_TIMEOUT = 0;
@@ -46,10 +49,7 @@ class SnackbarManager {
 
   private SnackbarManager() {
     mLock = new Object();
-    mHandler =
-        new Handler(
-            Looper.getMainLooper(),
-            new Handler.Callback() {
+        mHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
               @Override
               public boolean handleMessage(Message message) {
                 switch (message.what) {
@@ -64,7 +64,6 @@ class SnackbarManager {
 
   interface Callback {
     void show();
-
     void dismiss(int event);
   }
 
@@ -87,8 +86,8 @@ class SnackbarManager {
         mNextSnackbar = new SnackbarRecord(duration, callback);
       }
 
-      if (mCurrentSnackbar != null
-          && cancelSnackbarLocked(mCurrentSnackbar, Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE)) {
+            if (mCurrentSnackbar != null && cancelSnackbarLocked(mCurrentSnackbar,
+                    Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE)) {
         // If we currently have a Snackbar, try and cancel it and wait in line
         return;
       } else {
@@ -111,8 +110,8 @@ class SnackbarManager {
   }
 
   /**
-   * Should be called when a Snackbar is no longer displayed. This is after any exit animation has
-   * finished.
+     * Should be called when a Snackbar is no longer displayed. This is after any exit
+     * animation has finished.
    */
   public void onDismissed(Callback callback) {
     synchronized (mLock) {
@@ -138,17 +137,19 @@ class SnackbarManager {
     }
   }
 
-  public void cancelTimeout(Callback callback) {
+    public void pauseTimeout(Callback callback) {
     synchronized (mLock) {
-      if (isCurrentSnackbarLocked(callback)) {
+            if (isCurrentSnackbarLocked(callback) && !mCurrentSnackbar.paused) {
+                mCurrentSnackbar.paused = true;
         mHandler.removeCallbacksAndMessages(mCurrentSnackbar);
       }
     }
   }
 
-  public void restoreTimeout(Callback callback) {
+    public void restoreTimeoutIfPaused(Callback callback) {
     synchronized (mLock) {
-      if (isCurrentSnackbarLocked(callback)) {
+            if (isCurrentSnackbarLocked(callback) && mCurrentSnackbar.paused) {
+                mCurrentSnackbar.paused = false;
         scheduleTimeoutLocked(mCurrentSnackbar);
       }
     }
@@ -169,6 +170,7 @@ class SnackbarManager {
   private static class SnackbarRecord {
     final WeakReference<Callback> callback;
     int duration;
+        boolean paused;
 
     SnackbarRecord(int duration, Callback callback) {
       this.callback = new WeakReference<>(callback);
@@ -237,4 +239,5 @@ class SnackbarManager {
       }
     }
   }
+
 }
