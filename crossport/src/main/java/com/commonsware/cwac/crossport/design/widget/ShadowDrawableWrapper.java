@@ -30,7 +30,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import com.commonsware.cwac.crossport.R;
 import android.support.v4.content.ContextCompat;
-import com.commonsware.cwac.crossport.graphics.drawable.DrawableWrapper;
+import com.commonsware.cwac.crossport.v7.graphics.drawable.DrawableWrapper;
 
 /**
  * A {@link android.graphics.drawable.Drawable} which wraps another drawable and

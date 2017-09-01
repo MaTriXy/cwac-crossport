@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.commonsware.cwac.crossport.graphics.drawable;
+package com.commonsware.cwac.crossport.v7.graphics.drawable;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 

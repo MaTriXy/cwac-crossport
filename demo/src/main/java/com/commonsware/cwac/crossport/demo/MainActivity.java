@@ -24,8 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.MenuItem;
 import android.view.View;
-import com.commonsware.cwac.crossport.app.ActionBarDrawerToggle;
-import com.commonsware.cwac.crossport.demo.R;
+import com.commonsware.cwac.crossport.v7.app.ActionBarDrawerToggle;
 import com.commonsware.cwac.crossport.design.widget.Snackbar;
 import com.commonsware.cwac.crossport.design.widget.TabLayout;
 

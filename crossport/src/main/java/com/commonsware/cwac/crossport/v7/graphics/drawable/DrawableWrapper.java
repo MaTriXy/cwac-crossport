@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.commonsware.cwac.crossport.graphics.drawable;
+package com.commonsware.cwac.crossport.v7.graphics.drawable;
 
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.commonsware.cwac.crossport.app;
+package com.commonsware.cwac.crossport.v7.app;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -30,7 +30,7 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import com.commonsware.cwac.crossport.graphics.drawable.DrawerArrowDrawable;
+import com.commonsware.cwac.crossport.v7.graphics.drawable.DrawerArrowDrawable;
 import android.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
