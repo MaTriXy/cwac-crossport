@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="tooltip_background_dark">#e6616161</color>
-  <color name="tooltip_background_light">#e6FFFFFF</color>
-  <color name="foreground_material_dark">@android:color/white</color>
-  <color name="foreground_material_light">@android:color/black</color>
   <attr format="reference" name="tooltipFrameBackground"/>
   <attr format="reference|color" name="tooltipForegroundColor"/>
   <dimen name="abc_text_size_body_1_material">14sp</dimen>
-  <dimen name="tooltip_corner_radius">2dp</dimen>
   <dimen name="tooltip_horizontal_padding">16dp</dimen>
   <dimen name="tooltip_margin">8dp</dimen>
   <dimen name="tooltip_precise_anchor_extra_offset">8dp</dimen>
