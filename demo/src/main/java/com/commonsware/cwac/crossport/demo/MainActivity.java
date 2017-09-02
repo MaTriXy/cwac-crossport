@@ -26,7 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import com.commonsware.cwac.crossport.v7.app.ActionBarDrawerToggle;
 import com.commonsware.cwac.crossport.design.widget.Snackbar;
-import com.commonsware.cwac.crossport.design.widget.TabLayout;
+import com.commonsware.cwac.crossport.design.widget.TabLayoutLite;
 
 public class MainActivity extends Activity {
   private static final String STATE_ADAPTER="adapter";
@@ -52,25 +52,25 @@ public class MainActivity extends Activity {
     adapter=new PageAdapter(pager, getLayoutInflater());
     pager.setAdapter(adapter);
 
-    final TabLayout tabs=(TabLayout)findViewById(R.id.tabs);
+    final TabLayoutLite tabs=(TabLayoutLite)findViewById(R.id.tabs);
 
     for (int i=0;i<adapter.getItemCount();i++) {
       tabs.addTab(tabs.newTab().setText(adapter.getTabText(this, i)));
     }
 
-    tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+    tabs.addOnTabSelectedListener(new TabLayoutLite.OnTabSelectedListener() {
       @Override
-      public void onTabSelected(TabLayout.Tab tab) {
+      public void onTabSelected(TabLayoutLite.Tab tab) {
         pager.smoothScrollToPosition(tab.getPosition());
       }
 
       @Override
-      public void onTabUnselected(TabLayout.Tab tab) {
+      public void onTabUnselected(TabLayoutLite.Tab tab) {
         // unused
       }
 
       @Override
-      public void onTabReselected(TabLayout.Tab tab) {
+      public void onTabReselected(TabLayoutLite.Tab tab) {
         // unused
       }
     });
