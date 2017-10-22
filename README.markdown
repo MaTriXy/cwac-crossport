@@ -122,7 +122,7 @@ upstream originals.
 
 Release Notes
 -------------
-- v0.2.0: synchronize with 26.0.2 of the support libraries, added `TabLayoutLite`
+- v0.2.0: synchronize with 26.0.2/26.1.0 of the support libraries, added `TabLayoutLite`
 - v0.1.0: original release, mirroring the original dump of code from the Material Components library (which, unfortunately, they did not tag, but should line up with 25.x.y of the Design Support library)
 
 Who Made This?
