@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.commonsware.cwac:crossport:0.2.0'
+    compile 'com.commonsware.cwac:crossport:0.2.1'
 }
 ```
 
@@ -69,7 +69,7 @@ using some or all of those dependencies anyway.
 
 Version
 -------
-This is version v0.2.0 of this module, meaning it is pretty new.
+This is version v0.2.1 of this module, meaning it is pretty new.
 
 Demo
 ----
@@ -122,6 +122,7 @@ upstream originals.
 
 Release Notes
 -------------
+- v0.2.1: synchronize with 27.0.2 of the support libraries
 - v0.2.0: synchronize with 26.0.2/26.1.0 of the support libraries, added `TabLayoutLite`
 - v0.1.0: original release, mirroring the original dump of code from the Material Components library (which, unfortunately, they did not tag, but should line up with 25.x.y of the Design Support library)
 
