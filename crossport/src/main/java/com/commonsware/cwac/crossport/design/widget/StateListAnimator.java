@@ -16,7 +16,11 @@
 
 package com.commonsware.cwac.crossport.design.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.util.StateSet;
+
 import java.util.ArrayList;
 
 final class StateListAnimator {
@@ -24,12 +28,12 @@ final class StateListAnimator {
   private final ArrayList<Tuple> mTuples = new ArrayList<>();
 
   private Tuple mLastMatch = null;
-  ValueAnimatorCompat mRunningAnimator = null;
+    ValueAnimator mRunningAnimator = null;
 
-  private final ValueAnimatorCompat.AnimatorListener mAnimationListener =
-      new ValueAnimatorCompat.AnimatorListenerAdapter() {
+    private final ValueAnimator.AnimatorListener mAnimationListener =
+            new AnimatorListenerAdapter() {
         @Override
-        public void onAnimationEnd(ValueAnimatorCompat animator) {
+                public void onAnimationEnd(Animator animator) {
           if (mRunningAnimator == animator) {
             mRunningAnimator = null;
           }
@@ -43,13 +47,15 @@ final class StateListAnimator {
    * @param specs The drawable state specs to match against
    * @param animator The animator to run when the specs match
    */
-  public void addState(int[] specs, ValueAnimatorCompat animator) {
+    public void addState(int[] specs, ValueAnimator animator) {
     Tuple tuple = new Tuple(specs, animator);
     animator.addListener(mAnimationListener);
     mTuples.add(tuple);
   }
 
-  /** Called by View */
+    /**
+     * Called by View
+     */
   void setState(int[] state) {
     Tuple match = null;
     final int count = mTuples.size();
@@ -89,7 +95,7 @@ final class StateListAnimator {
   /**
    * If there is an animation running for a recent state change, ends it.
    *
-   * <p>This causes the animation to assign the end value(s) to the View.
+     * <p>This causes the animation to assign the end value(s) to the View.</p>
    */
   public void jumpToCurrentState() {
     if (mRunningAnimator != null) {
@@ -100,9 +106,9 @@ final class StateListAnimator {
 
   static class Tuple {
     final int[] mSpecs;
-    final ValueAnimatorCompat mAnimator;
+        final ValueAnimator mAnimator;
 
-    Tuple(int[] specs, ValueAnimatorCompat animator) {
+        Tuple(int[] specs, ValueAnimator animator) {
       mSpecs = specs;
       mAnimator = animator;
     }

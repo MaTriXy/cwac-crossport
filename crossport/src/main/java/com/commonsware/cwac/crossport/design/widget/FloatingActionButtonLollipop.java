@@ -16,6 +16,7 @@
 
 package com.commonsware.cwac.crossport.design.widget;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
@@ -33,25 +34,22 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiresApi(21)
-@TargetApi(21)
-class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
+class FloatingActionButtonLollipop extends FloatingActionButtonImpl {
 
   private InsetDrawable mInsetDrawable;
 
-  FloatingActionButtonLollipop(
-      VisibilityAwareImageButton view,
-      ShadowViewDelegate shadowViewDelegate,
-      ValueAnimatorCompat.Creator animatorCreator) {
-    super(view, shadowViewDelegate, animatorCreator);
+    FloatingActionButtonLollipop(VisibilityAwareImageButton view,
+            ShadowViewDelegate shadowViewDelegate) {
+        super(view, shadowViewDelegate);
   }
 
   @Override
-  void setBackgroundDrawable(
-      ColorStateList backgroundTint,
-      PorterDuff.Mode backgroundTintMode,
-      int rippleColor,
-      int borderWidth) {
+    void setBackgroundDrawable(ColorStateList backgroundTint,
+            PorterDuff.Mode backgroundTintMode, int rippleColor, int borderWidth) {
     // Now we need to tint the shape background with the tint
     mShapeDrawable = DrawableCompat.wrap(createShapeDrawable());
     DrawableCompat.setTintList(mShapeDrawable, backgroundTint);
@@ -68,7 +66,8 @@ class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
       rippleContent = mShapeDrawable;
     }
 
-    mRippleDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor), rippleContent, null);
+        mRippleDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor),
+                rippleContent, null);
 
     mContentBackground = mRippleDrawable;
 
@@ -86,8 +85,7 @@ class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
 
   @Override
   void onElevationsChanged(final float elevation, final float pressedTranslationZ) {
-    final int sdk = Build.VERSION.SDK_INT;
-    if (sdk == 21) {
+        if (Build.VERSION.SDK_INT == 21) {
       // Animations produce NPE in version 21. Bluntly set the values instead (matching the
       // logic in the animations below).
       if (mView.isEnabled()) {
@@ -107,8 +105,7 @@ class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
       // Animate elevation and translationZ to our values when pressed
       AnimatorSet set = new AnimatorSet();
       set.play(ObjectAnimator.ofFloat(mView, "elevation", elevation).setDuration(0))
-          .with(
-              ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z, pressedTranslationZ)
+                    .with(ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z, pressedTranslationZ)
                   .setDuration(PRESSED_ANIM_DURATION));
       set.setInterpolator(ANIM_INTERPOLATOR);
       stateListAnimator.addState(PRESSED_ENABLED_STATE_SET, set);
@@ -116,23 +113,26 @@ class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
       // Same deal for when we're focused
       set = new AnimatorSet();
       set.play(ObjectAnimator.ofFloat(mView, "elevation", elevation).setDuration(0))
-          .with(
-              ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z, pressedTranslationZ)
+                    .with(ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z, pressedTranslationZ)
                   .setDuration(PRESSED_ANIM_DURATION));
       set.setInterpolator(ANIM_INTERPOLATOR);
       stateListAnimator.addState(FOCUSED_ENABLED_STATE_SET, set);
 
       // Animate translationZ to 0 if not pressed
       set = new AnimatorSet();
-      set.playSequentially(
-          ObjectAnimator.ofFloat(mView, "elevation", elevation).setDuration(0),
+            List<Animator> animators = new ArrayList<>();
+            animators.add(ObjectAnimator.ofFloat(mView, "elevation", elevation).setDuration(0));
+            if (Build.VERSION.SDK_INT >= 22 && Build.VERSION.SDK_INT <= 24) {
           // This is a no-op animation which exists here only for introducing the duration
           // because setting the delay (on the next animation) via "setDelay" or "after"
           // can trigger a NPE between android versions 22 and 24 (due to a framework
           // bug). The issue has been fixed in version 25.
-          ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z, mView.getTranslationZ())
-              .setDuration(PRESSED_ANIM_DELAY),
-          ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z, 0f).setDuration(PRESSED_ANIM_DURATION));
+                animators.add(ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z,
+                        mView.getTranslationZ()).setDuration(PRESSED_ANIM_DELAY));
+            }
+            animators.add(ObjectAnimator.ofFloat(mView, View.TRANSLATION_Z, 0f)
+                    .setDuration(PRESSED_ANIM_DURATION));
+            set.playSequentially(animators.toArray(new ObjectAnimator[0]));
       set.setInterpolator(ANIM_INTERPOLATOR);
       stateListAnimator.addState(ENABLED_STATE_SET, set);
 
@@ -164,9 +164,8 @@ class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
   @Override
   void onPaddingUpdated(Rect padding) {
     if (mShadowViewDelegate.isCompatPaddingEnabled()) {
-      mInsetDrawable =
-          new InsetDrawable(
-              mRippleDrawable, padding.left, padding.top, padding.right, padding.bottom);
+            mInsetDrawable = new InsetDrawable(mRippleDrawable,
+                    padding.left, padding.top, padding.right, padding.bottom);
       mShadowViewDelegate.setBackgroundDrawable(mInsetDrawable);
     } else {
       mShadowViewDelegate.setBackgroundDrawable(mRippleDrawable);
@@ -203,13 +202,9 @@ class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
     if (mShadowViewDelegate.isCompatPaddingEnabled()) {
       final float radius = mShadowViewDelegate.getRadius();
       final float maxShadowSize = getElevation() + mPressedTranslationZ;
-      final int hPadding =
-          (int)
-              Math.ceil(
+            final int hPadding = (int) Math.ceil(
                   ShadowDrawableWrapper.calculateHorizontalPadding(maxShadowSize, radius, false));
-      final int vPadding =
-          (int)
-              Math.ceil(
+            final int vPadding = (int) Math.ceil(
                   ShadowDrawableWrapper.calculateVerticalPadding(maxShadowSize, radius, false));
       rect.set(hPadding, vPadding, hPadding, vPadding);
     } else {
@@ -218,10 +213,10 @@ class FloatingActionButtonLollipop extends FloatingActionButtonIcs {
   }
 
   /**
-   * LayerDrawable on L+ caches its isStateful() state and doesn't refresh it, meaning that if we
-   * apply a tint to one of its children, the parent doesn't become stateful and the tint doesn't
-   * work for state changes. We workaround it by saying that we are always stateful. If we don't
-   * have a stateful tint, the change is ignored anyway.
+     * LayerDrawable on L+ caches its isStateful() state and doesn't refresh it,
+     * meaning that if we apply a tint to one of its children, the parent doesn't become
+     * stateful and the tint doesn't work for state changes. We workaround it by saying that we
+     * are always stateful. If we don't have a stateful tint, the change is ignored anyway.
    */
   static class AlwaysStatefulGradientDrawable extends GradientDrawable {
     @Override

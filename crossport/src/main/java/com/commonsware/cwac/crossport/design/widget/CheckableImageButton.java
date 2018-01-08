@@ -17,8 +17,6 @@
 
 package com.commonsware.cwac.crossport.design.widget;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
-
 import android.content.Context;
 import android.support.annotation.RestrictTo;
 import android.support.v4.view.AccessibilityDelegateCompat;
@@ -30,8 +28,11 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Checkable;
 import android.widget.ImageButton;
+import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
-/** @hide */
+/**
+ * @hide
+ */
 @RestrictTo(LIBRARY_GROUP)
 public class CheckableImageButton extends ImageButton implements Checkable {
 
@@ -51,9 +52,7 @@ public class CheckableImageButton extends ImageButton implements Checkable {
   public CheckableImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
 
-    ViewCompat.setAccessibilityDelegate(
-        this,
-        new AccessibilityDelegateCompat() {
+        ViewCompat.setAccessibilityDelegate(this, new AccessibilityDelegateCompat() {
           @Override
           public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
             super.onInitializeAccessibilityEvent(host, event);
@@ -61,8 +60,8 @@ public class CheckableImageButton extends ImageButton implements Checkable {
           }
 
           @Override
-          public void onInitializeAccessibilityNodeInfo(
-              View host, AccessibilityNodeInfoCompat info) {
+            public void onInitializeAccessibilityNodeInfo(View host,
+                    AccessibilityNodeInfoCompat info) {
             super.onInitializeAccessibilityNodeInfo(host, info);
             info.setCheckable(true);
             info.setChecked(isChecked());
@@ -75,7 +74,8 @@ public class CheckableImageButton extends ImageButton implements Checkable {
     if (mChecked != checked) {
       mChecked = checked;
       refreshDrawableState();
-      sendAccessibilityEvent(AccessibilityEventCompat.TYPE_WINDOW_CONTENT_CHANGED);
+            sendAccessibilityEvent(
+                    AccessibilityEventCompat.TYPE_WINDOW_CONTENT_CHANGED);
     }
   }
 

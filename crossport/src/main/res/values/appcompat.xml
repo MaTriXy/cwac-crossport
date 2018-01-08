@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <attr format="reference" name="tooltipFrameBackground"/>
+  <attr format="reference|color" name="tooltipForegroundColor"/>
+  <dimen name="abc_text_size_body_1_material">14sp</dimen>
+  <dimen name="tooltip_horizontal_padding">16dp</dimen>
+  <dimen name="tooltip_margin">8dp</dimen>
+  <dimen name="tooltip_precise_anchor_extra_offset">8dp</dimen>
+  <dimen name="tooltip_precise_anchor_threshold">96dp</dimen>
+  <dimen name="tooltip_vertical_padding">6.5dp</dimen>
+  <dimen name="tooltip_y_offset_non_touch">0dp</dimen>
+  <dimen name="tooltip_y_offset_touch">16dp</dimen>
+  <style name="Animation.CrossPort.Tooltip" parent="Base.Animation.CrossPort.Tooltip"/>
+  <style name="Base.Animation.CrossPort.Tooltip" parent="android:Animation">
+    <item name="android:windowEnterAnimation">@anim/appcompat_tooltip_enter</item>
+    <item name="android:windowExitAnimation">@anim/appcompat_tooltip_exit</item>
+  </style>
+  <style name="Base.TextAppearance.CrossPort" parent="android:TextAppearance">
+    <item name="android:textColor">?android:textColorPrimary</item>
+    <item name="android:textColorHint">?android:textColorHint</item>
+    <item name="android:textColorHighlight">?android:textColorHighlight</item>
+    <item name="android:textColorLink">?android:textColorLink</item>
+    <item name="android:textSize">@dimen/abc_text_size_body_1_material</item>
+  </style>
+  <style name="Base.TextAppearance.CrossPort.Tooltip">
+    <item name="android:textSize">14sp</item>
+  </style>
+  <style name="TextAppearance.CrossPort.Tooltip" parent="Base.TextAppearance.CrossPort.Tooltip">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textSize">14sp</item>
+  </style>
+  <integer name="config_tooltipAnimTime">150</integer>
+</resources>

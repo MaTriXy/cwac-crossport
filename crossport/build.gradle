@@ -1,20 +1,22 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 27
     }
 }
 
+def supportVer="27.0.2"
+
 dependencies {
-    compile 'com.android.support:support-annotations:25.1.0'
-    compile 'com.android.support:support-compat:25.1.0'
-    compile 'com.android.support:support-core-utils:25.1.0'
-    compile 'com.android.support:support-core-ui:25.1.0'
+    api "com.android.support:support-annotations:$supportVer"
+    api "com.android.support:support-compat:$supportVer"
+    api "com.android.support:support-core-utils:$supportVer"
+    api "com.android.support:support-core-ui:$supportVer"
 }
 
 if (project.hasProperty('PUBLISH_GROUP_ID')) {

@@ -20,11 +20,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pools;
 import android.support.v4.util.SimpleArrayMap;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-/** A class which represents a simple directed acyclic graph. */
+/**
+ * A class which represents a simple directed acyclic graph.
+ */
 final class DirectedAcyclicGraph<T> {
   private final Pools.Pool<ArrayList<T>> mListPool = new Pools.SimplePool<>(10);
   private final SimpleArrayMap<T, ArrayList<T>> mGraph = new SimpleArrayMap<>();
@@ -35,7 +38,7 @@ final class DirectedAcyclicGraph<T> {
   /**
    * Add a node to the graph.
    *
-   * <p>If the node already exists in the graph then this method is a no-op.
+     * <p>If the node already exists in the graph then this method is a no-op.</p>
    *
    * @param node the node to add
    */
@@ -45,7 +48,9 @@ final class DirectedAcyclicGraph<T> {
     }
   }
 
-  /** Returns true if the node is already present in the graph, false otherwise. */
+    /**
+     * Returns true if the node is already present in the graph, false otherwise.
+     */
   boolean contains(@NonNull T node) {
     return mGraph.containsKey(node);
   }
@@ -53,16 +58,16 @@ final class DirectedAcyclicGraph<T> {
   /**
    * Add an edge to the graph.
    *
-   * <p>Both the given nodes should already have been added to the graph through {@link
-   * #addNode(Object)}.
+     * <p>Both the given nodes should already have been added to the graph through
+     * {@link #addNode(Object)}.</p>
    *
    * @param node the parent node
    * @param incomingEdge the node which has is an incoming edge to {@code node}
    */
   void addEdge(@NonNull T node, @NonNull T incomingEdge) {
     if (!mGraph.containsKey(node) || !mGraph.containsKey(incomingEdge)) {
-      throw new IllegalArgumentException(
-          "All nodes must be present in the graph before" + " being added as an edge");
+            throw new IllegalArgumentException("All nodes must be present in the graph before"
+                    + " being added as an edge");
     }
 
     ArrayList<T> edges = mGraph.get(node);
@@ -86,13 +91,13 @@ final class DirectedAcyclicGraph<T> {
   }
 
   /**
-   * Get any outgoing edges for the given node (i.e. nodes which have an incoming edge from the
-   * given node).
+     * Get any outgoing edges for the given node (i.e. nodes which have an incoming edge
+     * from the given node).
    *
    * @return a list containing any outgoing edges, or null if there are none.
    */
   @Nullable
-  List getOutgoingEdges(@NonNull T node) {
+    List<T> getOutgoingEdges(@NonNull T node) {
     ArrayList<T> result = null;
     for (int i = 0, size = mGraph.size(); i < size; i++) {
       ArrayList<T> edges = mGraph.valueAt(i);
@@ -116,7 +121,9 @@ final class DirectedAcyclicGraph<T> {
     return false;
   }
 
-  /** Clears the internal graph, and releases resources to pools. */
+    /**
+     * Clears the internal graph, and releases resources to pools.
+     */
   void clear() {
     for (int i = 0, size = mGraph.size(); i < size; i++) {
       ArrayList<T> edges = mGraph.valueAt(i);
@@ -128,12 +135,12 @@ final class DirectedAcyclicGraph<T> {
   }
 
   /**
-   * Returns a topologically sorted list of the nodes in this graph. This uses the DFS algorithm as
-   * described by Cormen et al. (2001). If this graph contains cyclic dependencies then this method
-   * will throw a {@link RuntimeException}.
+     * Returns a topologically sorted list of the nodes in this graph. This uses the DFS algorithm
+     * as described by Cormen et al. (2001). If this graph contains cyclic dependencies then this
+     * method will throw a {@link RuntimeException}.
    *
-   * <p>The resulting list will be ordered such that index 0 will contain the node at the bottom of
-   * the graph. The node at the end of the list will have no dependencies on other nodes.
+     * <p>The resulting list will be ordered such that index 0 will contain the node at the bottom
+     * of the graph. The node at the end of the list will have no dependencies on other nodes.</p>
    */
   @NonNull
   ArrayList<T> getSortedList() {
@@ -171,7 +178,9 @@ final class DirectedAcyclicGraph<T> {
     result.add(node);
   }
 
-  /** Returns the size of the graph */
+    /**
+     * Returns the size of the graph
+     */
   int size() {
     return mGraph.size();
   }

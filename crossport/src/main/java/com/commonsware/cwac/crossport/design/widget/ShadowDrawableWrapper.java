@@ -30,11 +30,11 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import com.commonsware.cwac.crossport.R;
 import android.support.v4.content.ContextCompat;
-import com.commonsware.cwac.crossport.graphics.drawable.DrawableWrapper;
+import com.commonsware.cwac.crossport.v7.graphics.drawable.DrawableWrapper;
 
 /**
- * A {@link Drawable} which wraps another drawable and draws a shadow
- * around it.
+ * A {@link android.graphics.drawable.Drawable} which wraps another drawable and
+ * draws a shadow around it.
  */
 class ShadowDrawableWrapper extends DrawableWrapper {
   // used to calculate content padding
@@ -75,11 +75,13 @@ class ShadowDrawableWrapper extends DrawableWrapper {
 
   private float mRotation;
 
-  /** If shadow size is set to a value above max shadow, we print a warning */
+    /**
+     * If shadow size is set to a value above max shadow, we print a warning
+     */
   private boolean mPrintedShadowClipWarning = false;
 
-  public ShadowDrawableWrapper(
-      Context context, Drawable content, float radius, float shadowSize, float maxShadowSize) {
+    public ShadowDrawableWrapper(Context context, Drawable content, float radius,
+            float shadowSize, float maxShadowSize) {
     super(content);
 
     mShadowStartColor = ContextCompat.getColor(context, R.color.design_fab_shadow_start_color);
@@ -95,7 +97,9 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     setShadowSize(shadowSize, maxShadowSize);
   }
 
-  /** Casts the value to an even integer. */
+    /**
+     * Casts the value to an even integer.
+     */
   private static int toEven(float value) {
     int i = Math.round(value);
     return (i % 2 == 1) ? i - 1 : i;
@@ -143,21 +147,16 @@ class ShadowDrawableWrapper extends DrawableWrapper {
 
   @Override
   public boolean getPadding(Rect padding) {
-    int vOffset =
-        (int)
-            Math.ceil(
-                calculateVerticalPadding(mRawMaxShadowSize, mCornerRadius, mAddPaddingForCorners));
-    int hOffset =
-        (int)
-            Math.ceil(
-                calculateHorizontalPadding(
-                    mRawMaxShadowSize, mCornerRadius, mAddPaddingForCorners));
+        int vOffset = (int) Math.ceil(calculateVerticalPadding(mRawMaxShadowSize, mCornerRadius,
+                mAddPaddingForCorners));
+        int hOffset = (int) Math.ceil(calculateHorizontalPadding(mRawMaxShadowSize, mCornerRadius,
+                mAddPaddingForCorners));
     padding.set(hOffset, vOffset, hOffset, vOffset);
     return true;
   }
 
-  public static float calculateVerticalPadding(
-      float maxShadowSize, float cornerRadius, boolean addPaddingForCorners) {
+    public static float calculateVerticalPadding(float maxShadowSize, float cornerRadius,
+            boolean addPaddingForCorners) {
     if (addPaddingForCorners) {
       return (float) (maxShadowSize * SHADOW_MULTIPLIER + (1 - COS_45) * cornerRadius);
     } else {
@@ -165,8 +164,8 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     }
   }
 
-  public static float calculateHorizontalPadding(
-      float maxShadowSize, float cornerRadius, boolean addPaddingForCorners) {
+    public static float calculateHorizontalPadding(float maxShadowSize, float cornerRadius,
+            boolean addPaddingForCorners) {
     if (addPaddingForCorners) {
       return (float) (maxShadowSize + (1 - COS_45) * cornerRadius);
     } else {
@@ -232,11 +231,8 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     if (drawHorizontalEdges) {
       // TE
       canvas.scale(1f / shadowScaleHorizontal, 1f);
-      canvas.drawRect(
-          0,
-          edgeShadowTop,
-          mContentBounds.width() - 2 * shadowOffset,
-          -mCornerRadius,
+            canvas.drawRect(0, edgeShadowTop,
+                    mContentBounds.width() - 2 * shadowOffset, -mCornerRadius,
           mEdgeShadowPaint);
     }
     canvas.restoreToCount(saved);
@@ -249,11 +245,8 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     if (drawHorizontalEdges) {
       // BE
       canvas.scale(1f / shadowScaleHorizontal, 1f);
-      canvas.drawRect(
-          0,
-          edgeShadowTop,
-          mContentBounds.width() - 2 * shadowOffset,
-          -mCornerRadius + mShadowSize,
+            canvas.drawRect(0, edgeShadowTop,
+                    mContentBounds.width() - 2 * shadowOffset, -mCornerRadius + mShadowSize,
           mEdgeShadowPaint);
     }
     canvas.restoreToCount(saved);
@@ -266,12 +259,8 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     if (drawVerticalEdges) {
       // LE
       canvas.scale(1f / shadowScaleBottom, 1f);
-      canvas.drawRect(
-          0,
-          edgeShadowTop,
-          mContentBounds.height() - 2 * shadowOffset,
-          -mCornerRadius,
-          mEdgeShadowPaint);
+            canvas.drawRect(0, edgeShadowTop,
+                    mContentBounds.height() - 2 * shadowOffset, -mCornerRadius, mEdgeShadowPaint);
     }
     canvas.restoreToCount(saved);
     // RT
@@ -283,12 +272,8 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     if (drawVerticalEdges) {
       // RE
       canvas.scale(1f / shadowScaleTop, 1f);
-      canvas.drawRect(
-          0,
-          edgeShadowTop,
-          mContentBounds.height() - 2 * shadowOffset,
-          -mCornerRadius,
-          mEdgeShadowPaint);
+            canvas.drawRect(0, edgeShadowTop,
+                    mContentBounds.height() - 2 * shadowOffset, -mCornerRadius, mEdgeShadowPaint);
     }
     canvas.restoreToCount(saved);
 
@@ -318,11 +303,7 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     if (shadowRadius > 0f) {
       float startRatio = mCornerRadius / shadowRadius;
       float midRatio = startRatio + ((1f - startRatio) / 2f);
-      mCornerShadowPaint.setShader(
-          new RadialGradient(
-              0,
-              0,
-              shadowRadius,
+            mCornerShadowPaint.setShader(new RadialGradient(0, 0, shadowRadius,
               new int[] {0, mShadowStartColor, mShadowMiddleColor, mShadowEndColor},
               new float[] {0f, startRatio, midRatio, 1f},
               Shader.TileMode.CLAMP));
@@ -331,15 +312,9 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     // we offset the content shadowSize/2 pixels up to make it more realistic.
     // this is why edge shadow shader has some extra space
     // When drawing bottom edge shadow, we use that extra space.
-    mEdgeShadowPaint.setShader(
-        new LinearGradient(
-            0,
-            innerBounds.top,
-            0,
-            outerBounds.top,
+        mEdgeShadowPaint.setShader(new LinearGradient(0, innerBounds.top, 0, outerBounds.top,
             new int[] {mShadowStartColor, mShadowMiddleColor, mShadowEndColor},
-            new float[] {0f, .5f, 1f},
-            Shader.TileMode.CLAMP));
+                new float[]{0f, .5f, 1f}, Shader.TileMode.CLAMP));
     mEdgeShadowPaint.setAntiAlias(false);
   }
 
@@ -348,18 +323,11 @@ class ShadowDrawableWrapper extends DrawableWrapper {
     // We could have different top-bottom offsets to avoid extra gap above but in that case
     // center aligning Views inside the CardView would be problematic.
     final float verticalOffset = mRawMaxShadowSize * SHADOW_MULTIPLIER;
-    mContentBounds.set(
-        bounds.left + mRawMaxShadowSize,
-        bounds.top + verticalOffset,
-        bounds.right - mRawMaxShadowSize,
-        bounds.bottom - verticalOffset);
+        mContentBounds.set(bounds.left + mRawMaxShadowSize, bounds.top + verticalOffset,
+                bounds.right - mRawMaxShadowSize, bounds.bottom - verticalOffset);
 
-    getWrappedDrawable()
-        .setBounds(
-            (int) mContentBounds.left,
-            (int) mContentBounds.top,
-            (int) mContentBounds.right,
-            (int) mContentBounds.bottom);
+        getWrappedDrawable().setBounds((int) mContentBounds.left, (int) mContentBounds.top,
+                (int) mContentBounds.right, (int) mContentBounds.bottom);
 
     buildShadowCorners();
   }
@@ -385,13 +353,14 @@ class ShadowDrawableWrapper extends DrawableWrapper {
   }
 
   public float getMinWidth() {
-    final float content = 2 * Math.max(mRawMaxShadowSize, mCornerRadius + mRawMaxShadowSize / 2);
+        final float content = 2 *
+                Math.max(mRawMaxShadowSize, mCornerRadius + mRawMaxShadowSize / 2);
     return content + mRawMaxShadowSize * 2;
   }
 
   public float getMinHeight() {
-    final float content =
-        2 * Math.max(mRawMaxShadowSize, mCornerRadius + mRawMaxShadowSize * SHADOW_MULTIPLIER / 2);
+        final float content = 2 * Math.max(mRawMaxShadowSize, mCornerRadius
+                + mRawMaxShadowSize * SHADOW_MULTIPLIER / 2);
     return content + (mRawMaxShadowSize * SHADOW_MULTIPLIER) * 2;
   }
 }

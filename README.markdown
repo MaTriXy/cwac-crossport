@@ -4,7 +4,7 @@ CWAC-CrossPort: Material Design Using Theme.Material
 This project offers a "crossport" of some classes from
 [the Material Components for Android library](https://github.com/material-components/material-components-android),
 revised to use `Theme.Material` instead of `Theme.AppCompat` as 
-a basis, along with removing all other `appcompat-v7` references.
+a basis, along with removing other `appcompat-v7` references.
 In particular, this library ports:
 
 - `FloatingActionButton`
@@ -12,11 +12,12 @@ In particular, this library ports:
 - `TabLayout`
 - `TextInputLayout` and `TextInputEditText`
 
-among other classe from Material Components for Android. It also has a port
-of `DrawerArrowDrawable`, for use with nav drawers.
+among other classes from Material Components for Android. It also has a port
+of `ActionBarDrawerToggle`, for use with nav drawers.
 
 These classes allow you to use these Material Design elements without incurring
-the overhead of `appcompat-v7`.
+the overhead of `appcompat-v7`. This should save your app ~7500 DEX method
+references in ProGuard-minified builds, plus an additional ~150KB of resources.
 
 This library will be updated sporadically, at least once per major
 release of the Material Components for Android library.
@@ -33,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.commonsware.cwac:crossport:0.1.0'
+    compile 'com.commonsware.cwac:crossport:0.2.1'
 }
 ```
 
@@ -52,6 +53,13 @@ So, instead of `android.support.design.widget.TabLayout`, it is
 
 Because this library requires `Theme.Material`, this library has a `minSdkVersion` of 21.
 
+There is one additional class that is not part of the Design Support library:
+`TabLayoutLite`. This is a clone of `TabLayout` with all references to `ViewPager`
+removed. This allows ProGuard to strip out `ViewPager` code if you are not using
+it elsewhere, saving an additional ~200 DEX method references. From an API standpoint,
+it is the same as `TabLayout`, except that it lacks `setupWithViewPager()`
+or the deprecated `setTabsFromPagerAdapter()`. The `demo/` app uses `TabLayoutLite`.
+
 Dependencies
 ------------
 This project depends upon `support-annotations` and three pieces of the
@@ -61,7 +69,7 @@ using some or all of those dependencies anyway.
 
 Version
 -------
-This is version v0.1.0 of this module, meaning it is pretty new.
+This is version v0.2.1 of this module, meaning it is pretty new.
 
 Demo
 ----
@@ -96,7 +104,7 @@ Note that bugs might come from this crossport, or they might originate with
 the original code that was ported. Try reproducing your bug both with
 `appcompat-v7` and with this library (in separate projects, or at least
 separate activities). If the bug appears in both, then the issue resides
-with `appcompat-v7`, and [should be filed with Google](http://b.android.com).
+with `appcompat-v7`, and [should be filed with Google](https://issuetracker.google.com/issues?q=componentid:192731).
 If the bug is unique to the crossport, then file it with this project.
 
 You are also welcome to join
@@ -114,6 +122,8 @@ upstream originals.
 
 Release Notes
 -------------
+- v0.2.1: synchronize with 27.0.2 of the support libraries
+- v0.2.0: synchronize with 26.0.2/26.1.0 of the support libraries, added `TabLayoutLite`
 - v0.1.0: original release, mirroring the original dump of code from the Material Components library (which, unfortunately, they did not tag, but should line up with 25.x.y of the Design Support library)
 
 Who Made This?
